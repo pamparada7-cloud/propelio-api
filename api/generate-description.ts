@@ -8,23 +8,23 @@ export default async function handler(req, res) {
 
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 console.log("API KEY:", process.env.GEMINI_API_KEY);
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+const response = await fetch(
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": process.env.GEMINI_API_KEY,
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [{ text: prompt }],
         },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: prompt }],
-            },
-          ],
-        }),
-      }
-    );
-
+      ],
+    }),
+  }
+);
     const data = await response.json();
 
 console.log("RESPONSE GEMINI:", data);
