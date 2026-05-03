@@ -1,7 +1,10 @@
 export default async function handler(req, res) {
   try {
-    const body = await req.json();
-    const { prompt } = body;
+    const { prompt } = req.body;
+
+    if (!prompt) {
+      return res.status(400).json({ error: "Falta el prompt" });
+    }
 
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
