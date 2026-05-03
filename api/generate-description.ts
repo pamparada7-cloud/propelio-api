@@ -6,15 +6,15 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Falta el prompt" });
     }
 
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-console.log("API KEY:", process.env.GEMINI_API_KEY);
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
 const response = await fetch(
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent",
   {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-goog-api-key": process.env.GEMINI_API_KEY,
+      "x-goog-api-key": GEMINI_API_KEY,
     },
     body: JSON.stringify({
       contents: [
