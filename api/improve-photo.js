@@ -21,13 +21,20 @@ export default async function handler(req, res) {
     if (style === "premium") {
       baseTransformation = "f_auto,q_auto,e_saturation:60,e_contrast:35,e_brightness:8,e_sharpen:120";
 
-      // 🌤️ SOLO PREMIUM intenta cielo (PRO)
-      skyTransformation = "e_sky_replace:blue_sky";
+      // 🔍 DETECCIÓN SIMPLE (NO aplicar sky a interiores)
+      const isExterior = imageUrl.includes("outdoor") 
+        || imageUrl.includes("sky") 
+        || imageUrl.includes("house") 
+        || imageUrl.includes("building");
+
+      if (isExterior) {
+        skyTransformation = "e_sky_replace:blue_sky";
+      }
     }
 
     let improvedUrl;
 
-    // 🚀 Pipeline PRO (2 pasos)
+    // 🚀 PIPELINE
     if (skyTransformation) {
       improvedUrl = imageUrl.replace(
         "/upload/",
@@ -38,22 +45,6 @@ export default async function handler(req, res) {
         "/upload/",
         `/upload/${baseTransformation}/`
       );
-    }
-
-    // 🛡️ FALLBACK AUTOMÁTICO (CLAVE)
-    // Si por alguna razón el sky rompe → volvemos a base
-    if (style === "premium") {
-      try {
-        // test rápido de URL
-        if (!improvedUrl.includes("e_sky_replace")) {
-          throw new Error("No sky applied");
-        }
-      } catch (e) {
-        improvedUrl = imageUrl.replace(
-          "/upload/",
-          `/upload/${baseTransformation}/`
-        );
-      }
     }
 
     return res.status(200).json({ improvedUrl });
