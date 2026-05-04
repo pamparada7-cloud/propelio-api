@@ -13,12 +13,12 @@ export default async function handler(req, res) {
     }
 
     if (style === "vibrant") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:50,e_contrast:40";
-    }
+  transformation = "f_auto,q_auto,e_saturation:80,e_contrast:60,e_sharpen:100";
+}
 
-    if (style === "premium") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:60,e_contrast:45,e_brightness:10,e_vibrance:40";
-    }
+if (style === "premium") {
+  transformation = "f_auto,q_auto,e_saturation:100,e_contrast:70,e_brightness:15,e_sharpen:200";
+}
 
     // 🔥 CIELO AUTOMÁTICO (solo si hay cielo)
     if (style === "premium") {
