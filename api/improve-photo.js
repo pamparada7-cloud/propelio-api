@@ -25,8 +25,8 @@ export default async function handler(req, res) {
 
     // 🔴 PREMIUM (efecto pro inmobiliario)
     if (style === "premium") {
-      transformation = "f_auto,q_auto,e_saturation:150,e_contrast:100,e_brightness:20,e_sharpen:250,e_auto_color,e_auto_brightness";
-    }
+  transformation = "f_auto,q_auto,e_improve,e_sharpen:120,e_contrast:40,e_saturation:30,e_brightness:5";
+}
 
     // Generar nueva URL con transformación
     const improvedUrl = imageUrl.replace(
