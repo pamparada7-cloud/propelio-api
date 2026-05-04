@@ -1,59 +1,37 @@
 export default async function handler(req, res) {
   try {
-    const { imageUrl, mode } = req.body;
+    const { imageUrl, style } = req.body;
 
     if (!imageUrl) {
       return res.status(400).json({ error: "Falta imageUrl" });
     }
 
-    // 🔥 PROMPT
-    let prompt = "";
+    let transformation = "";
 
-    if (mode === "pro") {
-      prompt = `Enhance this real estate photo professionally with better lighting, colors and sharpness. Keep it realistic.`;
+    // 🟢 NATURAL (suave y realista)
+    if (style === "natural") {
+      transformation = "f_auto,q_auto,e_improve,e_sharpen:50";
     }
 
-    if (mode === "sky") {
-      prompt = `Replace the sky with a natural blue sky, realistic lighting.`;
+    // 🟡 VIBRANTE (más color pero controlado)
+    if (style === "vibrant") {
+      transformation = "f_auto,q_auto,e_saturation:40,e_contrast:30,e_brightness:5,e_sharpen:80";
     }
 
-    if (mode === "remove") {
-      prompt = `Remove unwanted objects and fill naturally.`;
+    // 🔥 PRO REAL (ESTE ES EL IMPORTANTE)
+    if (style === "premium") {
+      transformation = "f_auto,q_auto,e_improve,e_sharpen:120,e_contrast:25,e_brightness:10,e_color_balance:20";
     }
 
-    // 🔥 DESCARGAR IMAGEN
-    const imageResponse = await fetch(imageUrl);
-    const arrayBuffer = await imageResponse.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    // 🔥 FORM DATA (IMPORTANTE)
-    const formData = new FormData();
-    formData.append("model", "gpt-image-1");
-    formData.append("prompt", prompt);
-    formData.append("image", new Blob([buffer]), "image.png");
-
-    // 🔥 LLAMADA A OPENAI
-    const response = await fetch("https://api.openai.com/v1/images/edits", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: formData,
-    });
-
-    const data = await response.json();
-
-    if (!data?.data?.[0]) {
-      console.error(data);
-      return res.status(500).json({ error: "Error IA" });
-    }
-
-    const improvedUrl = data.data[0].url;
+    const improvedUrl = imageUrl.replace(
+      "/upload/",
+      `/upload/${transformation}/`
+    );
 
     return res.status(200).json({ improvedUrl });
 
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error interno" });
+    console.error("ERROR:", error);
+    return res.status(500).json({ error: "Error al mejorar imagen" });
   }
 }
