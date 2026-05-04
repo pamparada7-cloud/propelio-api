@@ -13,11 +13,16 @@ export default async function handler(req, res) {
     }
 
     if (style === "vibrant") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:40,e_contrast:30";
+      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:50,e_contrast:40";
     }
 
     if (style === "premium") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:60,e_contrast:40,e_brightness:10";
+      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:60,e_contrast:45,e_brightness:10,e_vibrance:40";
+    }
+
+    // 🔥 CIELO AUTOMÁTICO (solo si hay cielo)
+    if (style === "premium") {
+      transformation += ",e_sky_replace";
     }
 
     const improvedUrl = imageUrl.replace(
