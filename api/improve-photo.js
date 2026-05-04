@@ -8,18 +8,18 @@ export default async function handler(req, res) {
 
     let transformation = "";
 
-    if (style === "natural") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen";
-    }
+if (style === "natural") {
+  transformation = "f_auto,q_auto,e_improve,e_sharpen";
+}
 
-    if (style === "vibrant") {
+if (style === "vibrant") {
   transformation = "f_auto,q_auto,e_saturation:80,e_contrast:60,e_sharpen:100";
 }
 
 if (style === "premium") {
   transformation = "f_auto,q_auto,e_saturation:100,e_contrast:70,e_brightness:15,e_sharpen:200";
 }
-
+    
     // 🔥 CIELO AUTOMÁTICO (solo si hay cielo)
     if (style === "premium") {
       transformation += ",e_sky_replace";
