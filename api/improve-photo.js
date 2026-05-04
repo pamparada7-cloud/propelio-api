@@ -11,22 +11,22 @@ export default async function handler(req, res) {
     // 🎨 ESTILOS
     if (style === "natural") {
       transformation += ",e_improve,e_sharpen:50";
-    }
-
-    if (style === "vibrant") {
+    } else if (style === "vibrant") {
       transformation += ",e_saturation:120,e_contrast:80,e_brightness:10,e_sharpen:150";
-    }
-
-    if (style === "premium") {
+    } else if (style === "premium") {
       transformation += ",e_improve,e_sharpen:120,e_contrast:40,e_saturation:30,e_brightness:5";
     }
 
-    // ☁️ MEJORAR CIELO (ESTABLE)
+    // ☁️ MEJORAR CIELO (seguro)
     if (sky === true) {
-      transformation += ",e_improve,e_blue:50,e_brightness:10,e_contrast:20";
+      transformation += ",e_improve,e_blue:40,e_brightness:10,e_contrast:15";
     }
 
-    // 🔁 GENERAR URL FINAL
+    // 🔁 GENERAR URL FINAL (con validación)
+    if (!imageUrl.includes("/upload/")) {
+      return res.status(400).json({ error: "URL inválida de Cloudinary" });
+    }
+
     const improvedUrl = imageUrl.replace(
       "/upload/",
       `/upload/${transformation}/`
@@ -35,4 +35,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ improvedUrl });
 
   } catch (error) {
-    console
+    console.error("ERROR:", error);
+    return res.status(500).json({ error: "Error al mejorar imagen" });
+  }
+}
