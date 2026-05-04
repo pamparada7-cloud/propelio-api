@@ -8,19 +8,19 @@ export default async function handler(req, res) {
 
     let transformation = "";
 
-    // 🟢 NATURAL (suave y realista)
+    // 🟢 NATURAL (suave pero visible)
     if (style === "natural") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen:50";
+      transformation = "f_auto,q_auto,e_improve,e_sharpen:30,e_contrast:10";
     }
 
-    // 🟡 VIBRANTE (más color pero controlado)
+    // 🟡 VIBRANTE (sí se nota)
     if (style === "vibrant") {
-      transformation = "f_auto,q_auto,e_saturation:40,e_contrast:30,e_brightness:5,e_sharpen:80";
+      transformation = "f_auto,q_auto,e_saturation:25,e_contrast:20,e_brightness:5,e_sharpen:60";
     }
 
-    // 🔥 PRO REAL (ESTE ES EL IMPORTANTE)
+    // 🔵 PRO REAL (equilibrado y nítido)
     if (style === "premium") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen:120,e_contrast:25,e_brightness:10,e_color_balance:20";
+      transformation = "f_auto,q_auto,e_improve,e_sharpen:90,e_contrast:20,e_brightness:8";
     }
 
     const improvedUrl = imageUrl.replace(
