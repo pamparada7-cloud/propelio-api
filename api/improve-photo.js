@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   try {
-    const { imageUrl, style, crop, sky } = req.body;
+    const { imageUrl, style, sky } = req.body;
 
     if (!imageUrl) {
       return res.status(400).json({ error: "Falta imageUrl" });
@@ -21,14 +21,9 @@ export default async function handler(req, res) {
       transformation += ",e_improve,e_sharpen:120,e_contrast:40,e_saturation:30,e_brightness:5";
     }
 
-    // ✂️ RECORTE INTELIGENTE
-    if (crop === true) {
-      transformation += ",c_fill,g_auto,w_1200,h_800";
-    }
-
-    // ☁️ MEJORAR CIELO
+    // ☁️ MEJORAR CIELO (ESTABLE)
     if (sky === true) {
-      transformation += ",e_sky_replace";
+      transformation += ",e_improve,e_blue:50,e_brightness:10,e_contrast:20";
     }
 
     // 🔁 GENERAR URL FINAL
@@ -40,7 +35,4 @@ export default async function handler(req, res) {
     return res.status(200).json({ improvedUrl });
 
   } catch (error) {
-    console.error("ERROR:", error);
-    return res.status(500).json({ error: "Error al mejorar imagen" });
-  }
-}
+    console
