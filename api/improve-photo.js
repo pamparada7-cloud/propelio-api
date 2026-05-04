@@ -19,8 +19,8 @@ export default async function handler(req, res) {
 
     // ☁️ MEJORAR CIELO (seguro)
     if (sky === true) {
-      transformation += ",e_improve,e_blue:40,e_brightness:10,e_contrast:15";
-    }
+  transformation += ",e_improve,e_blue:120,e_saturation:40,e_contrast:35";
+}
 
     // 🔁 GENERAR URL FINAL (con validación)
     if (!imageUrl.includes("/upload/")) {
