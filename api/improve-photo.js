@@ -2,29 +2,33 @@ export default async function handler(req, res) {
   try {
     const { imageUrl, style } = req.body;
 
+    // Validación básica
     if (!imageUrl) {
       return res.status(400).json({ error: "Falta imageUrl" });
     }
 
-    let transformation = "";
-
-if (style === "natural") {
-  transformation = "f_auto,q_auto,e_improve,e_sharpen";
-}
-
-if (style === "vibrant") {
-  transformation = "f_auto,q_auto,e_saturation:80,e_contrast:60,e_sharpen:100";
-}
-
-if (style === "premium") {
-  transformation = "f_auto,q_auto,e_saturation:100,e_contrast:70,e_brightness:15,e_sharpen:200";
-}
-    
-    // 🔥 CIELO AUTOMÁTICO (solo si hay cielo)
-    if (style === "premium") {
-      transformation += ",e_sky_replace";
+    if (!["natural", "vibrant", "premium"].includes(style)) {
+      return res.status(400).json({ error: "Style inválido" });
     }
 
+    let transformation = "";
+
+    // 🟢 NATURAL (suave)
+    if (style === "natural") {
+      transformation = "f_auto,q_auto,e_improve,e_sharpen:50";
+    }
+
+    // 🟠 VIBRANTE (más impacto visual)
+    if (style === "vibrant") {
+      transformation = "f_auto,q_auto,e_saturation:120,e_contrast:80,e_brightness:10,e_sharpen:150";
+    }
+
+    // 🔴 PREMIUM (efecto pro inmobiliario)
+    if (style === "premium") {
+      transformation = "f_auto,q_auto,e_saturation:150,e_contrast:100,e_brightness:20,e_sharpen:250,e_auto_color,e_auto_brightness";
+    }
+
+    // Generar nueva URL con transformación
     const improvedUrl = imageUrl.replace(
       "/upload/",
       `/upload/${transformation}/`
