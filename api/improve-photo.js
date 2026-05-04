@@ -1,34 +1,37 @@
 export default async function handler(req, res) {
   try {
-    const { imageUrl, style } = req.body;
+    const { imageUrl, style, crop, sky } = req.body;
 
-    // Validación básica
     if (!imageUrl) {
       return res.status(400).json({ error: "Falta imageUrl" });
     }
 
-    if (!["natural", "vibrant", "premium"].includes(style)) {
-      return res.status(400).json({ error: "Style inválido" });
-    }
+    let transformation = "f_auto,q_auto";
 
-    let transformation = "";
-
-    // 🟢 NATURAL (suave)
+    // 🎨 ESTILOS
     if (style === "natural") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen:50";
+      transformation += ",e_improve,e_sharpen:50";
     }
 
-    // 🟠 VIBRANTE (más impacto visual)
     if (style === "vibrant") {
-      transformation = "f_auto,q_auto,e_saturation:120,e_contrast:80,e_brightness:10,e_sharpen:150";
+      transformation += ",e_saturation:120,e_contrast:80,e_brightness:10,e_sharpen:150";
     }
 
-    // 🔴 PREMIUM (efecto pro inmobiliario)
     if (style === "premium") {
-  transformation = "f_auto,q_auto,e_improve,e_sharpen:120,e_contrast:40,e_saturation:30,e_brightness:5";
-}
+      transformation += ",e_improve,e_sharpen:120,e_contrast:40,e_saturation:30,e_brightness:5";
+    }
 
-    // Generar nueva URL con transformación
+    // ✂️ RECORTE INTELIGENTE
+    if (crop === true) {
+      transformation += ",c_fill,g_auto,w_1200,h_800";
+    }
+
+    // ☁️ MEJORAR CIELO
+    if (sky === true) {
+      transformation += ",e_sky_replace";
+    }
+
+    // 🔁 GENERAR URL FINAL
     const improvedUrl = imageUrl.replace(
       "/upload/",
       `/upload/${transformation}/`
