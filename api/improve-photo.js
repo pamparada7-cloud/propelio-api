@@ -1,15 +1,28 @@
 export default async function handler(req, res) {
   try {
-    const { imageUrl } = req.body;
+    const { imageUrl, style } = req.body;
 
     if (!imageUrl) {
       return res.status(400).json({ error: "Falta imageUrl" });
     }
 
-    // Transformaciones tipo Zillow
+    let transformation = "";
+
+    if (style === "natural") {
+      transformation = "f_auto,q_auto,e_improve,e_sharpen";
+    }
+
+    if (style === "vibrant") {
+      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:40,e_contrast:30";
+    }
+
+    if (style === "premium") {
+      transformation = "f_auto,q_auto,e_improve,e_sharpen,e_saturation:60,e_contrast:40,e_brightness:10";
+    }
+
     const improvedUrl = imageUrl.replace(
       "/upload/",
-      "/upload/f_auto,q_auto,e_improve,e_sharpen/"
+      `/upload/${transformation}/`
     );
 
     return res.status(200).json({ improvedUrl });
