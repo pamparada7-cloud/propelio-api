@@ -24,15 +24,23 @@ export default async function handler(req, res) {
         messages: [
   {
     role: "user",
-    content: `Actúa como un experto en marketing inmobiliario.
+    content: `Actúa como un experto en marketing inmobiliario especializado en ventas.
 
-Escribe una descripción inmobiliaria profesional, persuasiva y atractiva para portales como Zonaprop, Argenprop e Instagram.
+Tu objetivo NO es solo describir, sino vender la propiedad.
 
-Debe:
-- Resaltar beneficios (luz, ubicación, distribución)
-- Generar deseo (estilo de vida, confort, inversión)
-- Usar lenguaje claro y elegante
-- Incluir cierre atractivo
+Escribe una descripción inmobiliaria profesional, persuasiva y emocional para portales como Zonaprop, Argenprop e Instagram.
+
+Estructura:
+1. Hook inicial impactante (que genere interés inmediato)
+2. Beneficios clave (luz, ubicación, distribución, amenities)
+3. Estilo de vida (cómo se vive ahí)
+4. Cierre con llamado a la acción
+
+Reglas:
+- Lenguaje claro, elegante y vendedor
+- No repetir palabras
+- No sonar robótico
+- Máximo 120-150 palabras
 
 Propiedad: ${prompt}`
   }
