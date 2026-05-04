@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         messages: [
   {
     role: "user",
-    content: 'Actúa como un experto en marketing inmobiliario.
+    content: `Actúa como un experto en marketing inmobiliario.
 
 Escribe una descripción inmobiliaria profesional, persuasiva y atractiva para portales como Zonaprop, Argenprop e Instagram.
 
@@ -34,7 +34,7 @@ Debe:
 - Usar lenguaje claro y elegante
 - Incluir cierre atractivo
 
-Propiedad: ${prompt}'
+Propiedad: ${prompt}`
   }
 ]
       }),
