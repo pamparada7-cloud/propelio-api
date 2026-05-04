@@ -22,11 +22,21 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "gpt-4.1-mini",
         messages: [
-          {
-            role: "user",
-            content: `Crea una descripción inmobiliaria atractiva, persuasiva y profesional para la siguiente propiedad: ${prompt}`,
-          },
-        ],
+  {
+    role: "user",
+    content: `Actúa como un experto en marketing inmobiliario.
+
+Escribe una descripción inmobiliaria profesional, persuasiva y atractiva para portales como Zonaprop, Argenprop e Instagram.
+
+Debe:
+- Resaltar beneficios (luz, ubicación, distribución)
+- Generar deseo (estilo de vida, confort, inversión)
+- Usar lenguaje claro y elegante
+- Incluir cierre atractivo
+
+Propiedad: ${prompt}`
+  }
+]
       }),
     });
 
