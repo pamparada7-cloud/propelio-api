@@ -9,17 +9,17 @@ export default async function handler(req, res) {
     const response = await fetch("https://sdk.photoroom.com/v1/segment", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "x-api-key": process.env.PHOTOROOM_API_KEY,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        image_url: imageUrl,
-      }),
+        image_url: imageUrl
+      })
     });
 
-    const data = await response.json();
+    const data = await response.arrayBuffer();
 
-    return res.status(200).json(data);
+    return res.status(200).send(Buffer.from(data));
   } catch (error) {
     console.error("ERROR PHOTOROOM:", error);
     return res.status(500).json({ error: "Error al procesar imagen" });
