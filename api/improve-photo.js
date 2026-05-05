@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     let transformation = "";
 
-    // 🟢 NATURAL
+    // 🟢 NATURAL (realista con vida)
     if (style === "natural") {
       transformation = [
         "f_auto",
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       ].join(",");
     }
 
-    // 🟡 VIBRANTE
+    // 🟡 VIBRANTE (más impacto visual)
     if (style === "vibrant") {
       transformation = [
         "f_auto",
@@ -35,45 +35,34 @@ export default async function handler(req, res) {
       ].join(",");
     }
 
-    // 🔵 PRO INTELIGENTE
+    // 🔵 PRO REAL ESTATE (nivel editorial)
     if (style === "premium") {
-
-      // ⚡ Ajuste dinámico simulando análisis
-      const isInterior = imageUrl.includes("indoor") || imageUrl.includes("room");
-
-      if (isInterior) {
-        // 🏠 INTERIOR
-        transformation = [
-          "f_auto",
-          "q_auto:best",
-          "e_improve",
-          "e_sharpen:140",
-          "e_contrast:30",
-          "e_saturation:15",
-          "e_brightness:10",
-          "e_vibrance:35",
-          "e_auto_color"
-        ].join(",");
-      } else {
-        // 🌤️ EXTERIOR
-        transformation = [
-          "f_auto",
-          "q_auto:best",
-          "e_improve",
-          "e_sharpen:130",
-          "e_contrast:40",
-          "e_saturation:10",
-          "e_brightness:5",
-          "e_vibrance:25"
-        ].join(",");
-      }
+      transformation = [
+        "f_auto",
+        "q_auto:best",
+        "e_improve",
+        "e_sharpen:140",
+        "e_contrast:35",
+        "e_saturation:15",
+        "e_brightness:8",
+        "e_vibrance:30",
+        "e_auto_color"
+      ].join(",");
     }
 
-    // fallback
+    // 🔁 Fallback si no viene estilo
     if (!transformation) {
-      transformation = "f_auto,q_auto:best,e_improve,e_sharpen:80,e_contrast:20";
+      transformation = [
+        "f_auto",
+        "q_auto:best",
+        "e_improve",
+        "e_sharpen:80",
+        "e_contrast:20",
+        "e_vibrance:15"
+      ].join(",");
     }
 
+    // ✅ Validar URL de Cloudinary
     if (!imageUrl.includes("/upload/")) {
       return res.status(400).json({ error: "URL de Cloudinary inválida" });
     }
