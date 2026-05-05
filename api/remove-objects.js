@@ -1,1 +1,35 @@
+export default async function handler(req, res) {
+  try {
+    const { imageUrl } = req.body;
 
+    if (!imageUrl) {
+      return res.status(400).json({ error: "Falta imageUrl" });
+    }
+
+    const response = await fetch("https://sdk.photoroom.com/v1/remove-object", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.PHOTOROOM_API_KEY
+      },
+      body: JSON.stringify({
+        imageUrl
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data?.result_url) {
+      console.error("Remove error:", data);
+      return res.status(500).json({ error: "No se pudo borrar objetos" });
+    }
+
+    return res.status(200).json({
+      improvedUrl: data.result_url
+    });
+
+  } catch (error) {
+    console.error("ERROR REMOVE:", error);
+    return res.status(500).json({ error: "Error al borrar objetos" });
+  }
+}
