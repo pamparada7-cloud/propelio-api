@@ -8,26 +8,37 @@ export default async function handler(req, res) {
 
     let transformation = "";
 
-    // 🟢 NATURAL (suave pero visible)
+    // 🟢 NATURAL (realista pero con vida)
     if (style === "natural") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen:30,e_contrast:10";
+      transformation =
+        "f_auto,q_auto:good," +
+        "e_improve," +
+        "e_sharpen:60," +
+        "e_contrast:15," +
+        "e_brightness:3";
     }
 
-    // 🟡 VIBRANTE (sí se nota)
+    // 🟡 VIBRANTE (sí se nota pero sigue real)
     if (style === "vibrant") {
-      transformation = "f_auto,q_auto,e_saturation:25,e_contrast:20,e_brightness:5,e_sharpen:60";
+      transformation =
+        "f_auto,q_auto:good," +
+        "e_improve," +
+        "e_sharpen:90," +
+        "e_contrast:25," +
+        "e_saturation:20," +
+        "e_brightness:4";
     }
 
-    // 🔵 PRO REAL (nítido y profesional)
-if (style === "premium") {
-  transformation =
-    "f_auto,q_auto," +
-    "e_improve," +              // mejora base
-    "e_sharpen:120," +          // nitidez REAL
-    "e_contrast:30," +          // contraste que define bordes
-    "e_brightness:4," +         // MUY poco brillo
-    "e_saturation:10";          // color leve (no exagerado)
-}
+    // 🔵 PRO REAL ESTATE (el bueno de verdad)
+    if (style === "premium") {
+      transformation =
+        "f_auto,q_auto:good," +
+        "e_improve," +
+        "e_sharpen:120," +
+        "e_contrast:30," +
+        "e_saturation:10," +
+        "e_brightness:4";
+    }
 
     const improvedUrl = imageUrl.replace(
       "/upload/",
