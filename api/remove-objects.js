@@ -1,6 +1,6 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
 
-  // ✅ CORS FIX
+  // ✅ CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -10,8 +10,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ ESTE ES EL ERROR QUE TE FALTABA
-    const { imageUrl } = req.body;
+    const { imageUrl } = req.body || {};
 
     if (!imageUrl) {
       return res.status(400).json({ error: "Falta imageUrl" });
@@ -30,15 +29,23 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (!data?.result_url) {
+    if (!data || !data.result_url) {
       console.error("Remove error:", data);
-      return res.status(500).json({ error: "No se pudo borrar objetos" });
+      return res.status(500).json({
+        error: "No se pudo borrar objetos",
+        detail: data
+      });
     }
 
-    return res.status(200).json({ imageUrl: data.result_url });
+    return res.status(200).json({
+      imageUrl: data.result_url
+    });
 
   } catch (error) {
-    console.error("ERROR:", error);
-    return res.status(500).json({ error: "Error en remove-objects" });
+    console.error("ERROR REMOVE:", error);
+    return res.status(500).json({
+      error: "Error en remove-objects",
+      detail: error.message
+    });
   }
-}
+};
