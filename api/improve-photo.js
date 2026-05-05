@@ -24,9 +24,9 @@ export default async function handler(req, res) {
         "f_auto,q_auto:good," +
         "e_improve," +
         "e_sharpen:90," +
-        "e_contrast:25," +
+        "e_contrast:30," +
         "e_saturation:20," +
-        "e_brightness:4";
+        "e_brightness:5";
     }
 
     // 🔵 PRO REAL ESTATE (nivel profesional)
@@ -35,9 +35,9 @@ export default async function handler(req, res) {
         "f_auto,q_auto:good," +
         "e_improve," +
         "e_sharpen:120," +
-        "e_contrast:30," +
+        "e_contrast:40," +
         "e_saturation:10," +
-        "e_brightness:4," +
+        "e_brightness:5," +
         "e_clarity:20";
     }
 
