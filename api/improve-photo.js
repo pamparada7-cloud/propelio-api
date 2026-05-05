@@ -8,61 +8,57 @@ export default async function handler(req, res) {
 
     let transformation = "";
 
-    // 🟢 NATURAL
+    // 🟢 NATURAL (realista limpio)
     if (style === "natural") {
       transformation = [
         "f_auto",
         "q_auto:best",
-        "e_improve",
-        "e_sharpen:100",
-        "e_unsharp_mask:200:1.5:0.5:0",
-        "e_contrast:18",
-        "e_brightness:4",
-        "e_vibrance:15"
+        "e_improve:50",
+        "e_sharpen:70",
+        "e_contrast:15",
+        "e_brightness:3",
+        "e_vibrance:12"
       ].join(",");
     }
 
-    // 🟡 VIBRANTE
+    // 🟡 VIBRANTE (más atractivo sin exagerar)
     if (style === "vibrant") {
       transformation = [
         "f_auto",
         "q_auto:best",
-        "e_improve",
-        "e_sharpen:130",
-        "e_unsharp_mask:200:2:0.5:0",
-        "e_contrast:28",
-        "e_saturation:25",
+        "e_improve:60",
+        "e_sharpen:90",
+        "e_contrast:25",
+        "e_saturation:20",
         "e_brightness:5",
-        "e_vibrance:25"
+        "e_vibrance:22"
       ].join(",");
     }
 
-    // 🔵 PRO REAL ESTATE
+    // 🔵 PRO REAL ESTATE (balanceado y vendible)
     if (style === "premium") {
       transformation = [
         "f_auto",
         "q_auto:best",
-        "e_improve",
-        "e_sharpen:160",
-        "e_unsharp_mask:200:2.5:0.5:0",
-        "e_contrast:35",
-        "e_saturation:15",
-        "e_brightness:8",
-        "e_vibrance:30",
+        "e_improve:70",
+        "e_sharpen:120",
+        "e_contrast:30",
+        "e_saturation:12",
+        "e_brightness:6",
+        "e_vibrance:28",
         "e_auto_color"
       ].join(",");
     }
 
-    // 🔁 Fallback
+    // fallback
     if (!transformation) {
       transformation = [
         "f_auto",
         "q_auto:best",
-        "e_improve",
-        "e_sharpen:100",
-        "e_unsharp_mask:200:1.5:0.5:0",
-        "e_contrast:20",
-        "e_vibrance:15"
+        "e_improve:50",
+        "e_sharpen:70",
+        "e_contrast:15",
+        "e_vibrance:12"
       ].join(",");
     }
 
