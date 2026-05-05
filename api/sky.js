@@ -6,27 +6,33 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Falta imageUrl" });
     }
 
+    // descargar imagen
+    const imageResponse = await fetch(imageUrl);
+    const imageBuffer = await imageResponse.arrayBuffer();
+
+    const formData = new FormData();
+    formData.append("image_file", new Blob([imageBuffer]), "photo.jpg");
+
     const response = await fetch("https://sdk.photoroom.com/v1/segment", {
-  method: "POST",
-  headers: {
-    "x-api-key": process.env.PHOTOROOM_API_KEY
-  },
-  body: formData
-});
+      method: "POST",
+      headers: {
+        "x-api-key": process.env.PHOTOROOM_API_KEY
+      },
+      body: formData
+    });
 
-    const data = await response.json();
-
-    if (!data || !data.result_url) {
-      console.error("Error en respuesta:", data);
-      return res.status(500).json({ error: "No se pudo mejorar el cielo" });
+    if (!response.ok) {
+      const text = await response.text();
+      return res.status(500).json({ error: text });
     }
 
-    return res.status(200).json({
-      improvedUrl: data.result_url
-    });
+    const resultBuffer = await response.arrayBuffer();
+
+    res.setHeader("Content-Type", "image/png");
+    res.send(Buffer.from(resultBuffer));
 
   } catch (error) {
     console.error("ERROR SKY:", error);
-    return res.status(500).json({ error: "Error al procesar cielo" });
+    res.status(500).json({ error: "Error al procesar cielo" });
   }
 }
