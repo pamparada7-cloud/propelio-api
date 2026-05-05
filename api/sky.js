@@ -6,17 +6,13 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Falta imageUrl" });
     }
 
-    const response = await fetch("https://sdk.photoroom.com/v1/sky-replacement", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.PHOTOROOM_API_KEY
-      },
-      body: JSON.stringify({
-        imageUrl: imageUrl,
-        sky: "blue" // podés cambiar a "sunset" o "cloudy" después
-      })
-    });
+    const response = await fetch("https://sdk.photoroom.com/v1/segment", {
+  method: "POST",
+  headers: {
+    "x-api-key": process.env.PHOTOROOM_API_KEY
+  },
+  body: formData
+});
 
     const data = await response.json();
 
