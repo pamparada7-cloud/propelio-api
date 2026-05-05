@@ -9,6 +9,14 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  try {
+    // ✅ ESTE ES EL ERROR QUE TE FALTABA
+    const { imageUrl } = req.body;
+
+    if (!imageUrl) {
+      return res.status(400).json({ error: "Falta imageUrl" });
+    }
+
     const response = await fetch("https://sdk.photoroom.com/v1/remove-object", {
       method: "POST",
       headers: {
@@ -27,12 +35,10 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "No se pudo borrar objetos" });
     }
 
-    return res.status(200).json({
-      improvedUrl: data.result_url
-    });
+    return res.status(200).json({ imageUrl: data.result_url });
 
   } catch (error) {
-    console.error("ERROR REMOVE:", error);
-    return res.status(500).json({ error: "Error al borrar objetos" });
+    console.error("ERROR:", error);
+    return res.status(500).json({ error: "Error en remove-objects" });
   }
 }
