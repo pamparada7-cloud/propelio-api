@@ -8,43 +8,63 @@ export default async function handler(req, res) {
 
     let transformation = "";
 
-    // 🟢 NATURAL (realista pero mejorado)
+    // 🟢 NATURAL - Realista mejorado
     if (style === "natural") {
-      transformation =
-        "f_auto,q_auto:good," +
-        "e_improve," +
-        "e_sharpen:60," +
-        "e_contrast:15," +
-        "e_brightness:3";
+      transformation = [
+        "f_auto",
+        "q_auto:best",        // ← q_auto:good → best
+        "e_improve:50",       // ← improve con intensidad explícita
+        "e_sharpen:80",       // ← era 60
+        "e_contrast:20",      // ← era 15
+        "e_brightness:5",     // ← era 3
+        "e_vibrance:15",      // ← NUEVO: más vida sin sobresaturar
+      ].join(",");
     }
 
-    // 🟡 VIBRANTE (más color y definición)
+    // 🟡 VIBRANTE - Más color y definición
     if (style === "vibrant") {
-      transformation =
-        "f_auto,q_auto:good," +
-        "e_improve," +
-        "e_sharpen:90," +
-        "e_contrast:30," +
-        "e_saturation:20," +
-        "e_brightness:5";
+      transformation = [
+        "f_auto",
+        "q_auto:best",
+        "e_improve:70",
+        "e_sharpen:100",      // ← era 90
+        "e_contrast:30",      // ← era 25
+        "e_saturation:35",    // ← era 20, aquí está el color brillante
+        "e_brightness:6",     // ← era 4
+        "e_vibrance:25",      // ← NUEVO
+      ].join(",");
     }
 
-    // 🔵 PRO REAL ESTATE (nivel profesional)
+    // 🔵 PRO REAL ESTATE - Nivel editorial
     if (style === "premium") {
-      transformation =
-        "f_auto,q_auto:good," +
-        "e_improve," +
-        "e_sharpen:120," +
-        "e_contrast:60," +
-        "e_saturation:10," +
-        "e_brightness:5," +
-        "e_clarity:20";
+      transformation = [
+        "f_auto",
+        "q_auto:best",
+        "e_improve:80",
+        "e_sharpen:150",      // ← era 120
+        "e_contrast:35",      // ← era 30
+        "e_saturation:20",
+        "e_brightness:8",     // ← era 4, más luz = más amplitud
+        "e_vibrance:30",      // ← reemplaza e_clarity que NO existe
+        "e_auto_color",       // ← NUEVO: balance de color automático
+      ].join(",");
     }
 
-    // 🔁 Si no viene estilo, usar NATURAL por defecto
+    // 🔁 Default si no viene estilo
     if (!transformation) {
-      transformation =
-        "f_auto,q_auto:good,e_improve,e_sharpen:60,e_contrast:15";
+      transformation = [
+        "f_auto",
+        "q_auto:best",
+        "e_improve:50",
+        "e_sharpen:80",
+        "e_contrast:20",
+        "e_vibrance:15",
+      ].join(",");
+    }
+
+    // ✅ Validar que la URL tenga /upload/ antes de reemplazar
+    if (!imageUrl.includes("/upload/")) {
+      return res.status(400).json({ error: "URL de Cloudinary inválida" });
     }
 
     const improvedUrl = imageUrl.replace(
