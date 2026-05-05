@@ -18,10 +18,16 @@ export default async function handler(req, res) {
       transformation = "f_auto,q_auto,e_saturation:25,e_contrast:20,e_brightness:5,e_sharpen:60";
     }
 
-    // 🔵 PRO REAL (equilibrado y nítido)
-    if (style === "premium") {
-      transformation = "f_auto,q_auto,e_improve,e_sharpen:90,e_contrast:20,e_brightness:8";
-    }
+    // 🔵 PRO REAL (nítido y profesional)
+if (style === "premium") {
+  transformation =
+    "f_auto,q_auto," +
+    "e_improve," +              // mejora base
+    "e_sharpen:120," +          // nitidez REAL
+    "e_contrast:30," +          // contraste que define bordes
+    "e_brightness:4," +         // MUY poco brillo
+    "e_saturation:10";          // color leve (no exagerado)
+}
 
     const improvedUrl = imageUrl.replace(
       "/upload/",
