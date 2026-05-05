@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     let transformation = "";
 
-    // 🟢 NATURAL (realista pero con vida)
+    // 🟢 NATURAL (realista pero mejorado)
     if (style === "natural") {
       transformation =
         "f_auto,q_auto:good," +
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         "e_brightness:3";
     }
 
-    // 🟡 VIBRANTE (sí se nota pero sigue real)
+    // 🟡 VIBRANTE (más color y definición)
     if (style === "vibrant") {
       transformation =
         "f_auto,q_auto:good," +
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         "e_brightness:4";
     }
 
-    // 🔵 PRO REAL ESTATE (el bueno de verdad)
+    // 🔵 PRO REAL ESTATE (nivel profesional)
     if (style === "premium") {
       transformation =
         "f_auto,q_auto:good," +
@@ -37,7 +37,14 @@ export default async function handler(req, res) {
         "e_sharpen:120," +
         "e_contrast:30," +
         "e_saturation:10," +
-        "e_brightness:4";
+        "e_brightness:4," +
+        "e_clarity:20";
+    }
+
+    // 🔁 Si no viene estilo, usar NATURAL por defecto
+    if (!transformation) {
+      transformation =
+        "f_auto,q_auto:good,e_improve,e_sharpen:60,e_contrast:15";
     }
 
     const improvedUrl = imageUrl.replace(
