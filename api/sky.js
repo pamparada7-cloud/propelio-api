@@ -1,6 +1,6 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
 
-  // ✅ CORS FIX (OBLIGATORIO)
+  // ✅ CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -10,14 +10,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ INPUT
-    const { imageUrl } = req.body;
+    // ✅ IMPORTANTE: esto arregla tu error actual
+    const { imageUrl } = req.body || {};
 
     if (!imageUrl) {
       return res.status(400).json({ error: "Falta imageUrl" });
     }
 
-    // ✅ LLAMADA A PHOTOROOM (sky replacement)
     const response = await fetch("https://sdk.photoroom.com/v1/sky-replacement", {
       method: "POST",
       headers: {
@@ -25,15 +24,14 @@ export default async function handler(req, res) {
         "x-api-key": process.env.PHOTOROOM_API_KEY
       },
       body: JSON.stringify({
-        imageUrl: imageUrl,
-        sky: "sunny" // podés cambiar a: sunset, blue-sky, cloudy
+        imageUrl,
+        sky: "sunny"
       })
     });
 
     const data = await response.json();
 
-    // ❌ ERROR CONTROLADO
-    if (!data?.result_url) {
+    if (!data || !data.result_url) {
       console.error("Sky error:", data);
       return res.status(500).json({
         error: "No se pudo mejorar el cielo",
@@ -41,7 +39,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // ✅ OK
     return res.status(200).json({
       imageUrl: data.result_url
     });
@@ -53,4 +50,4 @@ export default async function handler(req, res) {
       detail: error.message
     });
   }
-}
+};
